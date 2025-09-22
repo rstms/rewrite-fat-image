@@ -1,0 +1,7 @@
+rewrite-fat-image
+goon-template
+notes
+cruft
+*.core
+*.log
+*postactivate
