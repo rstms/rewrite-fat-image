@@ -11,14 +11,20 @@ import (
 
 var rootCmd = &cobra.Command{
 	Version: "0.0.1",
-	Use:     "rewrite-fat-image",
-	Short:   "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:     "rewrite-fat-image SRC_IMAGE DST_IMAGE",
+	Short:   "rewrite a FAT disk image",
+	Long: `
+Reads a FAT formatted disk image from SRC_IMAGE.
+Use the ffs library to generate a new FAT12 2.88MB output image
+Use mtools mcat to copy the files from the source image to the destination
+`,
+	Args: cobra.ExactArgs(2),
+	Run: func(cmd *cobra.Command, args []string) {
+		err := RewriteFATImage(args[0], args[1])
+		cobra.CheckErr(err)
+	},
 }
+
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
