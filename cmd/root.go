@@ -11,7 +11,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Version: "0.0.2",
+	Version: "0.0.3",
 	Use:     "rewrite-fat-image SRC_IMAGE DST_IMAGE",
 	Short:   "rewrite a FAT disk image",
 	Long: `
