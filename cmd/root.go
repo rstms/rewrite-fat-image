@@ -6,6 +6,7 @@ package cmd
 import (
 	"os"
 
+	"github.com/rstms/ffs/image"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +21,19 @@ Use mtools mcat to copy the files from the source image to the destination
 `,
 	Args: cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		err := RewriteFATImage(args[0], args[1])
+		ftype := 12
+		switch {
+		case ViperGetBool("12"):
+			ftype = 12
+		case ViperGetBool("16"):
+			ftype = 16
+		case ViperGetBool("32"):
+			ftype = 32
+		}
+		size := ViperGetInt64("size")
+		src := args[0]
+		dst := args[1]
+		err := image.RewriteImage(dst, src, ftype, int64(size))
 		cobra.CheckErr(err)
 	},
 }
@@ -32,4 +45,10 @@ func Execute() {
 	}
 }
 func init() {
+	CobraInit(rootCmd)
+	OptionSwitch(rootCmd, "12", "", "set FAT12 type")
+	OptionSwitch(rootCmd, "16", "", "set FAT16 type")
+	OptionSwitch(rootCmd, "32", "", "set FAT32 type")
+	OptionInt(rootCmd, "size", "", 2880*1024, "image size")
+	rootCmd.MarkFlagsMutuallyExclusive("12", "16", "32")
 }

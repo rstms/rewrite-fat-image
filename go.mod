@@ -3,7 +3,7 @@ module github.com/rstms/rewrite-fat-image
 go 1.25.1
 
 require (
-	github.com/rstms/ffs v0.0.5
+	github.com/rstms/ffs v0.0.7
 	github.com/rstms/go-common v0.2.50
 	github.com/spf13/cobra v1.10.1
 	github.com/spf13/viper v1.21.0
